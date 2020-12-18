@@ -1,0 +1,64 @@
+# about run puppeteer on Travis CI, see more : https://docs.travis-ci.com/user/gui-and-headless-browsers/#using-xvfb-to-run-tests-that-require-a-gui
+# dist: trusty # trusty xenial see more : https://changelog.travis-ci.com/ubuntu-xenial-16-04-build-environment-update-86123
+# sudo: required
+# services: xvfb  # xvfb service should be launched in order to run Chromium in non-headless mode
+language: node_js
+node_js:
+  - 14.15.1
+
+#cache this directory
+cache:
+    directories:
+      - node_modules
+  # cache: npm
+
+env:
+  global:
+    - GH_REF: github.com/miaogs/miaogs.github.io.git # 设置GH_REF，注意更改yourname
+    - GE_REF: gitee.com/miaogs/miaogs.git            # 设置GE_REF，注意更改yourname
+
+
+# assign build branches
+branches:
+  only:
+    - main # build main branch only
+
+before_install:
+  - npm install -g hexo-cli # install hexo
+  - git clone https://github.com/miaogs/hexo-theme-next themes/next # clone Next theme
+
+install:
+  - npm install # 安装hexo及插件
+
+
+script:
+  - hexo clean
+  - hexo generate
+
+after_script:
+  - cd ./public
+  - git init
+  - git config user.name "Michael Miao" # user.name
+  - git config user.email "1247508314@qq.com" # user.email
+  - git add .
+  - git commit -m "Travis CI Auto Builder"
+  # Github
+  - git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:master # GH_TOKEN是Github在Travis中配置token的名称
+  # Gitee
+  - git push --force --quiet "https://miaogs:${GE_TOKEN}@${GE_REF}" master:master # GE_TOKEN是Gitee在Travis中配置token的名称
+  - cd -
+  # Gitee Pages update
+  - node gitee_pages_update.js
+
+
+
+
+
+# deploy:
+#   provider: pages
+#   skip-cleanup: true
+#   github-token: $GH_TOKEN
+#   keep-history: true
+#   on:
+#     branch: master #deploy master branch only
+#   local-dir: public

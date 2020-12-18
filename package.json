@@ -23,6 +23,11 @@
     "hexo-renderer-stylus": "^2.0.0",
     "hexo-renderer-swig": "^1.1.0",
     "hexo-server": "^2.0.0",
-    "highlight.js": "^10.4.1"
+    "highlight.js": "^10.4.1",
+    "puppeteer": "^5.5.0"
+  },
+  "devDependencies": {
+    "stylus": "^0.54.8",
+    "stylus-native-loader": "^1.4.2"
   }
 }
