@@ -21,7 +21,8 @@ env:
 # assign build branches
 branches:
   only:
-    - main # build main branch only
+    - main # build main branch
+    - /^(?i:dev)/.*$/ #build dev/xxxxxxxxx(e.g: dev/feat-add-mac-install-python-env) branch 
 
 before_install:
   - npm install -g hexo-cli # install hexo
