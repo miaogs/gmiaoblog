@@ -22,7 +22,7 @@ env:
 branches:
   only:
     - main # build main branch
-    - /^(?i:dev)/.*$/ #build dev/xxxxxxxxx(e.g: dev/feat-add-mac-install-python-env) branch 
+    - /^(?i:dev)/.*$/ #build dev/xxxxxxxxx(e.g: dev/feat-add-mac-install-python-env) branch
 
 before_install:
   - npm install -g hexo-cli # install hexo
@@ -36,6 +36,7 @@ script:
   - hexo clean
   - hexo generate
 
+
 after_script:
   - cd ./public
   - git init
@@ -48,8 +49,8 @@ after_script:
   # Gitee
   - git push --force --quiet "https://miaogs:${GE_TOKEN}@${GE_REF}" master:master # GE_TOKEN是Gitee在Travis中配置token的名称
   - cd -
-  # Gitee Pages update
-  - node gitee_pages_update.js
+#   # Gitee Pages update #temp 07.06.2021 guanshan.miao
+#   - node gitee_pages_update.js
 
 
 
